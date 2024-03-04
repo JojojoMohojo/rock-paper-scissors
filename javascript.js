@@ -61,7 +61,7 @@ function playGame() {
 function getPlayerChoice() {
     let selection = null;
     while (checkPlayerChoice(selection)) {
-        selection = prompt("Make your choice").toLowerCase();
+        selection = prompt("Choose Rock, Paper or Scissors").toLowerCase();
         if (checkPlayerChoice(selection)) {
             console.log(`${selection} is not a valid choice, please type Rock, Paper or Scissors.`);
         }
