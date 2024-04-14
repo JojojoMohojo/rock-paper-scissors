@@ -1,3 +1,87 @@
+const rButton = document.querySelector("#rock");
+const pButton = document.querySelector("#paper");
+const sButton = document.querySelector("#scissors");
+const resultsDiv = document.querySelector(".results");
+const finalResultDiv = document.querySelector(".final-result");
+const scoreDiv = document.querySelector(".score");
+
+let playerScore = 0;
+let computerScore = 0;
+
+rButton.addEventListener("click", () => {
+    let result = playRound("rock", getComputerChoice());
+    updateResultsDiv(result);
+    checkResult(result);
+    updateScoreDiv(result);
+})
+
+pButton.addEventListener("click", () => {
+    let result = playRound("paper", getComputerChoice());
+    updateResultsDiv(result);
+    checkResult(result);
+    updateScoreDiv(result);
+})
+
+sButton.addEventListener("click", () => {
+    let result = playRound("scissors", getComputerChoice());
+    updateResultsDiv(result);
+    checkResult(result);
+    updateScoreDiv(result);
+})
+
+function checkResult(result) {
+    if (result.includes("Win")) {
+        playerScore++;
+        if (playerScore === 5) {
+            finalResultDiv.textContent = "You won the match!";
+            resetMatch();
+        }
+    } else if (result.includes("Lose")) {
+        computerScore++;
+        if (computerScore === 5) {
+            finalResultDiv.textContent = "The computer won the match!";
+            resetMatch();
+        }
+    }
+}
+
+function resetMatch() {
+    toggleButtons(false);
+    const resetButton = document.createElement("button");
+    resetButton.textContent = "Reset";
+    resetButton.setAttribute("id", "resetButton");
+    resetButton.addEventListener("click", () => {
+        toggleButtons(true);
+        resultsDiv.textContent = "";
+        scoreDiv.textContent = "";
+        computerScore = 0;
+        playerScore = 0;
+        resetButton.remove();
+    })
+    document.body.insertBefore(resetButton, resultsDiv);
+}
+
+function toggleButtons(setting) {
+    if (setting) {
+        rButton.disabled = false;
+        pButton.disabled = false;
+        sButton.disabled = false;
+    } else if (!setting) {
+        rButton.disabled = true;
+        pButton.disabled = true;
+        sButton.disabled = true;
+    }
+}
+
+function updateResultsDiv(result) {
+    resultsDiv.textContent = (result);
+}
+
+function updateScoreDiv(result) {
+    scoreDiv.textContent = `You: ${playerScore}
+    Computer: ${computerScore}`
+}
+
 function getComputerChoice() {
     let options = Array("rock", "paper", "scissors");
     let selection = Math.floor(Math.random() * options.length);
@@ -24,11 +108,11 @@ function playRound(playerSelection, computerSelection) {
         return "You Lose! Rock beats scissors"
 
     } else {
-        return "Draw!"
+        return `Draw! You both chose ${playerSelection}`
     }
 }
 
-function playGame() {
+/*function playGame() {
     let playerScore = 0;
     let computerScore = 0;
 
@@ -76,5 +160,4 @@ function checkPlayerChoice(selection) {
         return false;
     }
 }
-
-playGame()
+*/
